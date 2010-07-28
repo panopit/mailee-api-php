@@ -1,6 +1,7 @@
 <?php
 /*
   // Uso
+  define('MAILEE_CONFIG_SITE', 'YOUR KEY');
   $contact = new MaileeContact();
   $contacts = $contact->find('all');
   echo count($contacts . "\n");
@@ -15,7 +16,7 @@
   print_r($contact->find_by_internal_id('412905575'));
 
 */
-  define('MAILEE_CONFIG_SITE', 'http://api.56286cf8a8187.spree.wizee.net/');
+//  
   
   require 'ActiveResource.php';
   class MaileeConfig extends ActiveResource{
