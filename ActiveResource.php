@@ -192,6 +192,10 @@ class ActiveResource {
     foreach($data as $k => $v) {
       if($k != 'id' && $k != 'created-at' && $k != 'updated-at') {
         $params .= '&' . $el . '[' . $k . ']=' . urlencode($v);
+        if($k == 'list' || $k == 'list_id') {
+          $params .= '&' . $k . '=' . urlencode($v);
+          print_r($params);     
+        }
       }
     }
 
