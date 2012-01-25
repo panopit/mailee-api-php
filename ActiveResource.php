@@ -194,7 +194,6 @@ class ActiveResource {
         $params .= '&' . $el . '[' . $k . ']=' . urlencode($v);
         if($k == 'list' || $k == 'list_id') {
           $params .= '&' . $k . '=' . urlencode($v);
-          print_r($params);     
         }
       }
     }
