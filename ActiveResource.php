@@ -173,7 +173,13 @@ class ActiveResource {
    * PUT /collection/id/method.xml
    */
   function put($method, $options = array()) {
-    return $this->_send_and_receive($this->site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.xml', 'PUT', $options);
+    if(substr($this->site,-1) == '/'){
+      $site = $this->site;
+    }
+    else {
+      $site = $this->site . '/';
+    }
+    return $this->_send_and_receive($site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.xml', 'PUT', $options);
   }
 
   /**
@@ -190,8 +196,8 @@ class ActiveResource {
     }
 
     $params = substr($params, 1);
-    $res = $this->_fetch($url, $method, $params);
 
+    $res = $this->_fetch($url, $method, $params);
     preg_match('/Status: (\d{3})/', $res, $match);
     $this->status = $match[1];
     
