@@ -172,26 +172,30 @@ class ActiveResource {
    *
    * PUT /collection/id/method.xml
    */
-  function put($method, $options = array()) {
+  function put($method, $options = array(), $use_class = true) {
     if(substr($this->site,-1) == '/'){
       $site = $this->site;
     }
     else {
       $site = $this->site . '/';
     }
-    return $this->_send_and_receive($site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.xml', 'PUT', $options);
+    return $this->_send_and_receive($site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.xml', 'PUT', $options, $use_class);
   }
 
   /**
    * Build the request, call _fetch() and parse the results.
    */
-  function _send_and_receive($url, $method, $data = array()) {
+  function _send_and_receive($url, $method, $data = array(), $use_class = true) {
 
     $params = '';
     $el = substr($this->element_name, 0, -1);
     foreach($data as $k => $v) {
       if($k != 'id' && $k != 'created-at' && $k != 'updated-at') {
-        $params .= '&' . $el . '[' . $k . ']=' . urlencode($v);
+	if($use_class) {
+          $params .= '&' . $el . '[' . $k . ']=' . urlencode($v);
+	} else {
+          $params .= '&' .  $k . '=' . urlencode($v);
+	}
         if($k == 'list' || $k == 'list_id') {
           $params .= '&' . $k . '=' . urlencode($v);
         }
