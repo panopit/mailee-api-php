@@ -271,6 +271,15 @@ class ActiveResource {
     curl_setopt($ch, CURLOPT_VERBOSE, 0);
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+    /** 
+    Corrige BUG SSL certificate problem 
+    SSL certificate problem, verify that the CA cert is OK. Details: 
+    error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate 
+    verify failed 
+    */ 
+    curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0); 
+    curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+    
     switch($method) {
       case 'POST':
         curl_setopt($ch, CURLOPT_POST, 1);
