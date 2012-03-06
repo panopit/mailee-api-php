@@ -49,6 +49,8 @@ class ActiveResource {
    * The REST site address, e.g., http://user:pass@domain:port/
    */
   var $site = false;
+  var $api_key = false;
+  #var $extra_params = false;
 
   /**
    * The remote collection, e.g., person or things
@@ -70,9 +72,9 @@ class ActiveResource {
    */
   var $errno = false;
 
-  var $collection_url = "%s/%s.xml";
-  var $member_url = "%s/%s/%d.xml";
-  var $method_url = "%s/%s/%d/%s.xml";
+  var $collection_url = "%s/%s.json";
+  var $member_url = "%s/%s/%d.json";
+  var $method_url = "%s/%s/%d/%s.json";
 
   function collection_url(){
     return sprintf($this->collection_url, $this->site, $this->element_name);
@@ -116,7 +118,7 @@ class ActiveResource {
    * DELETE /collection/id.xml
    */
   function destroy() {
-    return $this->_send_and_receive($this->site . $this->element_name . '/' . $this->_data['id'] . '.xml', 'DELETE');
+    return $this->_send_and_receive($this->site . $this->element_name . '/' . $this->_data['id'] . '.json', 'DELETE');
   }
 
   /**
@@ -179,7 +181,7 @@ class ActiveResource {
     else {
       $site = $this->site . '/';
     }
-    return $this->_send_and_receive($site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.xml', 'PUT', $options, $use_class);
+    return $this->_send_and_receive($site . $this->element_name . '/' . $this->_data['id'] . '/' . $method . '.json', 'PUT', $options, $use_class);
   }
 
   /**
@@ -201,6 +203,9 @@ class ActiveResource {
         }
       }
     }
+    
+    /* this is not part of the original ActiveResource.php, we use this to add the api_key */
+    $url = $url . '&api_key=' .$this->api_key;
 
     $params = substr($params, 1);
 
