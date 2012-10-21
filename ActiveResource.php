@@ -207,6 +207,11 @@ class ActiveResource {
     $res = $this->_fetch($url, $method, $params);
     preg_match('/Status: (\d{3})/', $res, $match);
     $this->status = $match[1];
+
+    if ($this->status == 422) {
+      $this->error = 'Unprocessable Entity';
+      return $this;
+    }
     
     preg_match('/<\?xml/', $res, $match);
     if( ! $match ){
